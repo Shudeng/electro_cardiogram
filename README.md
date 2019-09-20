@@ -1,1 +1,1 @@
-# electro_cardiogram
+Project for electrocardiogram recognition competition
