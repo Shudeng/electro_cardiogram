@@ -10,11 +10,12 @@ class CardiogramDataset(Dataset):
         self.labels = labels
 
     def __getitem__(self, index):
-        features, num_labels, labels = self.helper.get_patient_feature_and_label(
-            self.list_files[index]
-        )
+        features = helper.get_features_from_txt(self.list_files[index])
         features = torch.FloatTensor(features)
-        return features, num_labels
+        # print("index {} label {}".format(index, self.labels[index]))
+        label = torch.FloatTensor([self.labels[index]])
+        # print("float label {}".format(label))
+        return features, label
 
     def __len__(self):
         return len(self.list_files)
@@ -35,14 +36,26 @@ def k_fold(k, list_files, labels):
             del labels[r]
         k_datas.append(tmp_datas)
         k_labels.append(tmp_labels)
+
     k_datas.append(list_files)
     k_labels.append(labels)
     return k_datas, k_labels
 
 
-ids = [i for i in range(100)]
-labels = [i+2 for i in range(100)]
 
-datas, labels = k_fold(5, ids, labels )
-print(datas)
-print(labels)
+helper = DataHelper()
+files = helper.files
+num_labels = helper.num_labels
+
+datas, labels = k_fold(5, files, num_labels)
+validation_data = datas[0]
+validation_label = labels[0]
+
+train_data = []
+train_labels = []
+for i in range(1, 5):
+    train_data += datas[i]
+    train_labels += labels[i]
+
+dataset = CardiogramDataset(train_data, train_labels)
+# print(len(dataset))
