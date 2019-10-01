@@ -10,7 +10,7 @@ class CardiogramDataset(Dataset):
         self.labels = labels
 
     def __getitem__(self, index):
-        features = helper.get_features_from_txt(self.list_files[index])
+        features = self.helper.get_features_from_txt(self.list_files[index])
         features = torch.FloatTensor(features)
         # print("index {} label {}".format(index, self.labels[index]))
         label = torch.FloatTensor([self.labels[index]])
