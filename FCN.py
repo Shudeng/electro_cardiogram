@@ -91,6 +91,8 @@ train_iter, test_iter = helper.get_train_and_validation_iter()
 for X, y in train_iter:
     x = X
     break
+
+
 # print(x.shape)
 # lstm_reshape = LSTM_RESHAPE()
 # x = lstm_reshape(x)

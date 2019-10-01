@@ -3,7 +3,7 @@ from torch import nn
 from load_data import DataHelper
 class RESHAPE(nn.Module):
     def forward(self, x):
-        return x.view((-1, x.shape[2], x.shape[1]))
+        return x.transpose(1, 2)
 
 class Encoder(nn.Module):
     def __init__(self, input_size, hidden_size,
